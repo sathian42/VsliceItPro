@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vsliceit4U | Pro Video Slicer</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+    <script src="coi-serviceworker.js"></script>
+</head>
+
+<body>
+    <nav class="navbar">
+        <span class="nav-logo"><h1 class="gradient-text"><span>V-SliceitPro4U</span></h1>  </span>
+        <ul class="nav-links">
+            <li><a href="javascript:void(0)" onclick="openModal('about')">About</a></li>
+            <li><a href="javascript:void(0)" onclick="openModal('how-to-use')">How to Use</a></li>
+            <li><a href="javascript:void(0)" onclick="openModal('troubleshoot')">Fix Problems</a></li>
+            <li><a href="javascript:void(0)" onclick="openModal('support')">Support</a></li>
+        </ul>
+    </nav>
+
+    <div class="bg-animation">
+        <div class="blob"></div>
+        <div class="blob"></div>
+        <div class="blob"></div>
+    </div>
+
+    <div class="container">
+        <div class="glass-card">
+            <header>
+                <img src="logo.png" alt="Vsliceit4U Logo" class="site-logo">
+                <h1 class="gradient-text">
+                    <span>V</span>-Slice<span>it</span>Pro<span>4U</span>
+                </h1>
+                <p class="subtitle">Video Slicer Tool for Social Media</p>
+            </header>
+
+            <div class="input-section">
+                <div class="field">
+                    <label>Movie Title</label>
+                    <input type="text" id="movieTitle" placeholder="e.g. JananaNayagan">
+                </div>
+
+                <div class="field">
+                    <label>Segment Prefix</label>
+                    <input type="text" id="segmentPrefix" placeholder="e.g. part, season, episode...">
+                </div>
+
+                <div class="row">
+                    <label class="toggle-card">
+                        <input type="checkbox" id="showTopText" checked>
+                        <span>Part Sequence</span>
+                    </label>
+                    <label class="toggle-card">
+                        <input type="checkbox" id="showBottomText" checked>
+                        <span>Movie Title</span>
+                    </label>
+                </div>
+
+                <div class="row">
+                    <div class="field half">
+                        <label>Split (Sec)</label>
+                        <input type="number" id="splitSeconds" value="60">
+                    </div>
+                    <div class="field half">
+                        <label>Ratio</label>
+                        <select id="aspectRatio">
+                            <option value="9:16">9:16 (Vertical)</option>
+                            <option value="16:9">16:9 (Wide)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Choose Font Style:</label>
+                    <select id="fontSelect">
+                        <option value="Poppins(light).ttf">Poppins (Light)</option>
+                        <option value="Poppins(Black).ttf">Poppins (Black)</option>
+                        <option value="Tamil.ttf">Tamil</option>
+                        <option value="Telugu.ttf">Telungu</option>
+                        <option value="malayalam.ttf">Malayalam</option>
+                        <option value="Kannadam.ttf">Kannadam</option>
+                        <option value="Times-New_Romance.ttf">Times New Roman</option>
+                        <option value="Master_Fonts.otf">MasterFonts(Multi Language)</option>
+
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Omit Ranges (HH:MM:SS - HH:MM:SS)</label>
+                    <textarea id="omitList" placeholder="00:00:00 - 00:00:20&#10;00:03:42 - 00:03:52 ..."></textarea>
+                </div>
+
+                <div class="field">
+                    <label class="file-label" for="videoInput">
+                        <span>📁 Choose Video File</span>
+                        <input type="file" id="videoInput" accept="video/*">
+                    </label>
+                </div>
+
+                <button id="startBtn">START PROCESSING</button>
+            </div>
+            <div class="pro-stats">
+                <div class="stat-row">
+                    <span id="statPart">Ready</span>
+                    <span id="statTime">Est: --:--</span>
+                </div>
+                <div class="progress-wrapper">
+                    <div id="progressBar" class="progress-fill"></div>
+                </div>
+                <div id="statCurrent" class="small-detail">Waiting for video...</div>
+            </div>
+
+            <div class="status-container">
+                <div id="console">System Log: Ready for input...</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalOverlay" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-content glass-card">
+            <button class="close-btn" onclick="closeModal(null, true)">&times;</button>
+            <div id="modalBody">
+            </div>
+        </div>
+    </div>
+
+        <div id="content-storage" style="display:none;">
+    
+    <div id="text-about">
+        <h2 class="gradient-text">About V-Slice Pro 4U</h2>
+        <p><strong>No Uploading:</strong> Since the tool works directly in your browser, you don't waste data or time uploading 2GB+ files to a server.</p>
+        <p><strong>100% Private:</strong> Your video never leaves your computer. Your files are processed locally, ensuring no one else can see your content.</p>
+        <p><strong>Language Support:</strong> The system is specially designed to render South Indian languages like Tamil, Telugu, Malayalam, and Kannada perfectly without any character errors.</p>
+        <p><strong>Safe & Fast:</strong> Enjoy a clean environment for creators with no viruses, no hidden tracking, and no annoying pop-up ads.</p>
+    </div>
+
+    <div id="text-how-to-use">
+        <h2 class="gradient-text">How to Use</h2>
+        <p><strong>1. Enter Details:</strong> Type your Movie Title and choose a Prefix (like "Part" or "Episode") to organize your clips.</p>
+        <p><strong>2. Customize Text:</strong> Use the checkboxes to decide if the Movie Title or Part Number should be visible on the video frames.</p>
+        <p><strong>3. Pick Your Style:</strong> Select a Font from the dropdown that supports your language (Tamil, Telugu, English, etc.) to avoid broken characters.</p>
+        <p><strong>4. Set Time & Ratio:</strong> Choose the length of each segment (e.g., 60 seconds) and select the Aspect Ratio—Vertical (9:16) for Reels/TikTok or Wide (16:9).</p>
+        <p><strong>5. Skip Unwanted Parts:</strong> To remove ads or intros, enter the time ranges in the Omit box (e.g., 00:00:00 - 00:00:20).</p>
+        <p><strong>6. Select Video:</strong> Click the "Choose Video File" button to load a movie from your local storage. It stays 100% private.</p>
+        <p><strong>7. Start:</strong> Press "START PROCESSING." The tool will slice and automatically download each part to your computer.</p>
+    </div>
+
+    <div id="text-troubleshoot">
+        <h2 class="gradient-text">Fix Problems</h2>
+        <p><strong>1. Page Crashing or Freezing:</strong> Processing large videos requires a lot of RAM. Close other tabs and background apps, then refresh.</p>
+        <p><strong>2. "SharedArrayBuffer" Error:</strong> Ensure you are using Chrome/Edge and have uploaded the <code>coi-serviceworker.js</code> file.</p>
+        <p><strong>3. Missing Downloads:</strong> Check the address bar for a "Pop-up blocked" icon and select "Always allow."</p>
+        <p><strong>4. Text Showing as Boxes:</strong> Select <strong>MasterFonts</strong> or a specific language font from the dropdown.</p>
+        <p><strong>5. Slow Processing:</strong> Video encoding depends on your CPU. Avoid heavy software while V-Slice is running.</p>
+        <p><strong>6. Mobile Device Issues:</strong> Best used on Desktop Chrome. iPhones may block background processing.</p>
+        <p><strong>7. Final Reset:</strong> Clear browser cache or use an <strong>Incognito Window</strong>.</p>
+    </div>
+
+    <div id="text-support">
+        <h2 class="gradient-text">Support</h2>
+        <p><strong>Support & Feedback:</strong> Found a bug? Report issues directly through our GitHub repository.</p>
+        <p><strong>Community Support:</strong> Join our community to share tips on viral Reels and Shorts settings.</p>
+        <p><strong>Support the Project:</strong> V-Slice Pro is free. If it saved you time, consider a small donation to keep things running!</p>
+
+        <div class="qr-container">
+            <p class="qr-label">Scan to Support</p>
+            <img src="qr.png" alt="UPI QR Code" class="qr-code">
+            <div class="upi-details">
+                <span>sathian100903@oksbi</span>
+                <button class="copy-btn" onclick="copyUPI()">Copy ID</button>
+            </div>
+        </div>
+
+        <div class="support-buttons">
+            <a href="https://github.com/sathian42" class="btn-small" target="_blank">GitHub</a>
+            <a href="upi://pay?pa=sathian100903@oksbi&pn=Sathian&tn=Support%20VSlice" class="btn-coffee">☕ Buy Me a Coffee</a>
+        </div>
+    </div>
+
+</div>
+    
+            <script src="ffmpeg.umd.js"></script>
+            <script src="functions.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@salomvary/ffmpeg.js-umd@3.1.9001/ffmpeg-mp4.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/umd/index.js"></script>
+            <script src="script.js"></script>
+</body>
+
+</html>
