@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         log("🔤 Injecting Font...");
         const selectedFontFile = document.getElementById("fontSelect").value;
-        const fontUrl = `fonts/${selectedFontFile}`;
+        const fontUrl = `Fonts/${selectedFontFile}`;
 
         try {
           // Fetch the specific font file from your /fonts folder
